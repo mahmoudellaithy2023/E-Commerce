@@ -1,0 +1,27 @@
+@import "tailwindcss";
+@import "react-image-gallery/styles/css/image-gallery.css";
+@theme {
+  --color-mainColor: #0aad0a;
+}
+body {
+  font-family: "Encode Sans Expanded", sans-serif;
+}
+@utility container {
+  margin: auto;
+  @media (width >= 75rem /* 1280px */) {
+    max-width: 75rem /* 1280px */;
+  }
+}
+.active {
+  font-weight: 900;
+  color: #0aad0a;
+}
+
+@layer components {
+  .input {
+    @apply bg-white rounded-md grow p-2  focus:outline-none;
+  }
+  .btn {
+    @apply bg-mainColor text-white rounded-md p-2;
+  }
+}
