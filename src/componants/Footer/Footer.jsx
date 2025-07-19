@@ -8,44 +8,53 @@ import photo6 from "../../assets/images/get-google-play.png";
 
 export default function Footer() {
   return (
-    <footer className="bg-slate-200  w-full py-8 mt-8">
-      <div className="container space-y-5">
-        <div>
-          <h2 className="text-2xl">Get The Fresh Cart App</h2>
+    <footer className="bg-slate-200 w-full py-8 mt-8">
+      <div className="container mx-auto space-y-5 px-4">
+        <div className="text-center sm:text-left">
+          <h2 className="text-2xl font-semibold">Get The Fresh Cart App</h2>
           <p className="text-slate-500">
             Lorem, ipsum dolor sit amet consectetur adipisicing elit.
           </p>
         </div>
-        <div className="flex items-center gap-3 pt-2">
-          <input className="input ms-3" type="email" placeholder="Emaill...." />
-          <button className="btn">Share App Link</button>
+
+        <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
+          <input
+            className="input w-full  sm:w-auto px-3 py-2 rounded border"
+            type="email"
+            placeholder="Email..."
+          />
+          <button className="btn bg-green-600 text-white px-4 py-2 rounded">
+            Share App Link
+          </button>
         </div>
-        <div className="pt-6 flex items-center justify-between">
-          <div className="left flex   ">
-            <h3 className="text-[20px]">Payment Partenrs</h3>
-            <ul className="flex items-center gap-2 ps-2">
+
+        <div className="pt-6 flex flex-col sm:flex-row justify-between items-center gap-5 sm:gap-0">
+          <div className="flex flex-col items-center sm:items-start">
+            <h3 className="text-[20px] mb-2">Payment Partners</h3>
+            <ul className="flex items-center gap-3">
               <li>
-                <img className="w-[40px]" src={photo1} alt="" />
+                <img className="w-[40px]" src={photo1} alt="Amazon Pay" />
               </li>
               <li>
-                <img className="w-[40px]" src={photo2} alt="" />
+                <img className="w-[40px]" src={photo2} alt="American Express" />
               </li>
               <li>
-                <img className="w-[40px]" src={photo3} alt="" />
+                <img className="w-[40px]" src={photo3} alt="Mastercard" />
               </li>
               <li>
-                <img className="w-[40px]" src={photo4} alt="" />
+                <img className="w-[40px]" src={photo4} alt="PayPal" />
               </li>
             </ul>
           </div>
-          <div className="right flex">
-            <h3 className="text-[20px]">Get Delivers With FreshCart</h3>
-            <ul className="flex items-center gap-2 ps-2">
+
+          <div className="flex flex-col items-center sm:items-end">
+            <h3 className="text-[20px] mb-2">Get Delivers With FreshCart</h3>
+            <ul className="flex items-center gap-3">
               <li>
-                <img className="w-[70px]" src={photo5} alt="" />
+                <img className="w-[120px]" src={photo5} alt="Apple Store" />
               </li>
               <li>
-                <img className="w-[70px]" src={photo6} alt="" />
+                <img className="w-[120px]" src={photo6} alt="Google Play" />
               </li>
             </ul>
           </div>
