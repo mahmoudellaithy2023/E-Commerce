@@ -2,7 +2,6 @@ import { useFormik } from "formik";
 import React, { useContext, useState } from "react";
 import { CartContext } from "../../Context/Cart.context";
 import { TokenContext } from "../../Context/Token.context";
-
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -12,132 +11,96 @@ export default function Checkout() {
   const { cartInfo } = useContext(CartContext);
   const { token } = useContext(TokenContext);
   const navigate = useNavigate();
+
   const formik = useFormik({
-    initialValues: {
-      city: "",
-      phone: "",
-      details: "",
-    },
-    onSubmit: (values) => {
-      if (payment == "cash") {
-        cashOrder(values);
-      } else {
-        onlineOrder(values);
-      }
-    },
+    initialValues: { city: "", phone: "", details: "" },
+    onSubmit: (values) =>
+      payment === "cash" ? cashOrder(values) : onlineOrder(values),
   });
 
   async function onlineOrder(values) {
-    let loading = toast.loading("loading....");
+    const loadingToast = toast.loading("Processing online payment...");
     try {
-      const test = {
-        shippingAddress: values,
-      };
-      const options = {
-        url: `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartInfo.cartId}?url=http://localhost:5173`,
-        method: "POST",
-        data: test,
-        headers: {
-          token,
-        },
-      };
-      const { data } = await axios.request(options);
-      console.log(data);
-      toast.success("success");
-      setTimeout(() => {
-        location.replace(data.session.url);
-      }, 2000);
-    } catch (error) {
-      toast.error("error");
+      const { data } = await axios.post(
+        `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartInfo.cartId}?url=http://localhost:5173`,
+        { shippingAddress: values },
+        { headers: { token } }
+      );
+      toast.success("Redirecting to payment...");
+      setTimeout(() => location.replace(data.session.url), 1500);
+    } catch (err) {
+      toast.error(err.message);
     } finally {
-      toast.dismiss(loading);
+      toast.dismiss(loadingToast);
     }
   }
+
   async function cashOrder(values) {
-    let loading = toast.loading("loading....");
+    const loadingToast = toast.loading("Processing cash order...");
     try {
-      const test = {
-        shippingAddress: values,
-      };
-      const options = {
-        url: `https://ecommerce.routemisr.com/api/v1/orders/${cartInfo.cartId}`,
-        method: "POST",
-        data: test,
-        headers: {
-          token,
-        },
-      };
-      const { data } = await axios.request(options);
-      console.log(data);
-      toast.success("success");
-      setTimeout(() => {
-        navigate("/allorders");
-      }, 2000);
-    } catch (error) {
-      toast.error("error");
+      const { data } = await axios.post(
+        `https://ecommerce.routemisr.com/api/v1/orders/${cartInfo.cartId}`,
+        { shippingAddress: values },
+        { headers: { token } }
+      );
+      toast.success("Order placed successfully!");
+      setTimeout(() => navigate("/allorders"), 1500);
+    } catch (err) {
+      toast.error("Error placing order");
     } finally {
-      toast.dismiss(loading);
+      toast.dismiss(loadingToast);
     }
   }
 
   return (
-    <>
-      <div className="py-8">
-        <h2 className="text-2xl text-mainColor font-semibold mt-5">
-          Fill Your Details:
-        </h2>
+    <div className="container mx-auto py-10 space-y-6">
+      <h2 className="text-2xl text-mainColor font-semibold">
+        Fill Your Details:
+      </h2>
 
-        <form onSubmit={formik.handleSubmit} className="pt-5">
-          <div className="my-1">
-            <label htmlFor="">City:</label>
-            <input
-              type="text"
-              className="input w-full bg-gray-200 my-3"
-              name="city"
-              value={formik.values.city}
-              onChange={formik.handleChange}
-            />
-          </div>
-          <div className="my-1">
-            <label htmlFor="">Phone:</label>
-            <input
-              type="text"
-              className="input w-full bg-gray-200 my-3"
-              name="phone"
-              value={formik.values.phone}
-              onChange={formik.handleChange}
-            />
-          </div>
-          <div className="my-1">
-            <label htmlFor="">Details:</label>
-            <input
-              type="text"
-              className="input w-full bg-gray-200 my-3"
-              name="details"
-              value={formik.values.details}
-              onChange={formik.handleChange}
-            />
-          </div>
+      <form onSubmit={formik.handleSubmit} className="space-y-4">
+        <input
+          type="text"
+          name="city"
+          placeholder="City"
+          className="input w-full"
+          value={formik.values.city}
+          onChange={formik.handleChange}
+        />
+        <input
+          type="text"
+          name="phone"
+          placeholder="Phone"
+          className="input w-full"
+          value={formik.values.phone}
+          onChange={formik.handleChange}
+        />
+        <input
+          type="text"
+          name="details"
+          placeholder="Address Details"
+          className="input w-full"
+          value={formik.values.details}
+          onChange={formik.handleChange}
+        />
+
+        <div className="flex gap-4">
           <button
-            onClick={() => {
-              setPayment("cash");
-            }}
             type="submit"
-            className="btn bg-blue-700 py-2 my-1 px-3"
+            onClick={() => setPayment("cash")}
+            className="btn hover:scale-105 transition-transform"
           >
             Cash Order
           </button>
           <button
-            onClick={() => {
-              setPayment("online");
-            }}
             type="submit"
-            className="btn ms-4 py-2 my-1 px-3"
+            onClick={() => setPayment("online")}
+            className="btn hover:scale-105 transition-transform"
           >
             Online Order
           </button>
-        </form>
-      </div>
-    </>
+        </div>
+      </form>
+    </div>
   );
 }

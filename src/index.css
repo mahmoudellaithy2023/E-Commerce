@@ -1,27 +1,124 @@
 @import "tailwindcss";
 @import "react-image-gallery/styles/css/image-gallery.css";
+
+/* Theme Colors */
 @theme {
-  --color-mainColor: #0aad0a;
-}
-body {
-  font-family: "Encode Sans Expanded", sans-serif;
-}
-@utility container {
-  margin: auto;
-  @media (width >= 75rem /* 1280px */) {
-    max-width: 75rem /* 1280px */;
-  }
-}
-.active {
-  font-weight: 900;
-  color: #0aad0a;
+  --color-mainColor: #1ca5aa;
+  --color-secondary: #fbbf24;
+  --color-hover: #0d9488;
+  --color-bg: #f3f4f6;
+  --color-text: #111827;
 }
 
-@layer components {
-  .input {
-    @apply bg-white rounded-md grow p-2  focus:outline-none;
+/* Body font & background */
+body {
+  font-family: "Encode Sans Expanded", sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* Container utility */
+@utility container {
+  margin: auto;
+  @media (width >= 75rem) {
+    max-width: 75rem;
   }
+}
+
+/* Active link */
+.active {
+  font-weight: 900;
+  color: var(--color-mainColor);
+}
+
+/* Components */
+@layer components {
+  /* Inputs */
+  .input {
+    @apply bg-white rounded-md grow p-3 border border-gray-300 transition-all duration-300 ease-in-out;
+
+    &:focus {
+      border-color: var(--color-mainColor);
+      box-shadow: 0 0 0 2px var(--color-mainColor);
+      outline: none;
+    }
+  }
+
+  /* Buttons */
   .btn {
-    @apply bg-mainColor text-white rounded-md p-2;
+    @apply bg-mainColor text-white rounded-md px-4 py-2 font-semibold uppercase tracking-wide shadow-md transition-transform duration-300 ease-in-out hover:scale-105;
+
+    &:hover {
+      background-color: var(--color-hover);
+    }
+  }
+
+  /* Cards */
+  .card {
+    @apply bg-white rounded-lg shadow-md overflow-hidden transition-all duration-500 ease-in-out hover:shadow-xl hover:scale-105;
+  }
+
+  /* Modal */
+  .modal-bg {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 50;
+    background-color: rgba(0, 0, 0, 0.5); /* بديل bg-opacity-50 */
+    opacity: 0;
+    animation: fadeIn 0.5s forwards;
+  }
+
+  .modal-content {
+    @apply bg-white rounded-lg p-6 max-w-lg w-full relative;
+    animation: fadeIn 0.5s forwards;
+  }
+}
+
+/* Utilities */
+@layer utilities {
+  /* Fade in animation utility */
+  .fade-in {
+    opacity: 0;
+    animation: fadeIn 0.5s forwards;
+  }
+
+  /* Shadow main color */
+  .shadow-main {
+    box-shadow: 0 4px 6px rgba(13, 148, 136, 0.5);
+  }
+
+  /* Tooltip simple */
+  .tooltip {
+    @apply absolute bg-gray-800 text-white text-sm rounded px-2 py-1 opacity-0 transition-opacity duration-300;
+  }
+
+  .tooltip-show {
+    @apply opacity-100;
+  }
+}
+
+/* Keyframes */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
   }
 }

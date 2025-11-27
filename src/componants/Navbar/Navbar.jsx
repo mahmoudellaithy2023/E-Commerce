@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import logoNav from "../../assets/images/favicon.png";
+
 import { NavLink, Link } from "react-router-dom";
-import { LogOut, ShoppingCart, Menu } from "lucide-react";
+import { LogOut, ShoppingCart, Menu, ShoppingCartIcon } from "lucide-react";
 import { TokenContext } from "../../Context/Token.context";
 import { CartContext } from "../../Context/Cart.context";
 
@@ -21,8 +21,8 @@ export default function Navbar() {
       <nav className="bg-slate-200 h-20 flex items-center shadow-md relative">
         <div className="container flex justify-between items-center py-5">
           <div className="flex space-x-1 items-center">
-            <img className="w-[30px]" src={logoNav} alt="logo" />
-            <h1 className="font-semibold text-2xl">
+            <ShoppingCartIcon className="text-mainColor font-bold" />
+            <h1 className="font-semibold text-2xl text-mainColor">
               <Link to={"Home"}>Fresh Cart</Link>
             </h1>
           </div>
@@ -61,7 +61,7 @@ export default function Navbar() {
           </div>
 
           <div className="hidden md:flex">
-            <ul className="flex items-center space-x-3 text-md">
+            <ul className="flex items-center space-x-3 text-md cursor-pointer">
               {token ? (
                 <li>
                   <NavLink className="relative" to={"Cart"}>

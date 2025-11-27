@@ -1,26 +1,22 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
-
-import toast from "react-hot-toast";
-import Card from "../../componants/Card/Card";
+import React, { useEffect, useState } from "react";
 import Loading from "../../componants/Loading/Loading";
+import Card from "../../componants/Card/Card";
+import toast from "react-hot-toast";
 
 export default function Products() {
-  const [products, setProducts] = useState(null);
+  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   async function getProducts() {
     try {
-      const option = {
-        url: "https://ecommerce.routemisr.com/api/v1/products",
-        method: "GET",
-      };
-      const { data } = await axios.request(option);
+      const { data } = await axios.get(
+        "https://ecommerce.routemisr.com/api/v1/products"
+      );
       setProducts(data.data);
     } catch (err) {
-      setError("Failed to load products");
-      toast.error("Error loading products");
+      toast.error("Failed to load products");
+      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -30,25 +26,16 @@ export default function Products() {
     getProducts();
   }, []);
 
-  return (
-    <>
-      {loading ? (
-        <Loading />
-      ) : (
-        <>
-          <div className="container">
-            <h1 className="text-3xl font-bold text-mainColor m-4">
-              All Products
-            </h1>
-          </div>
+  if (loading) return <Loading />;
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4">
-            {products.map((product) => (
-              <Card key={product.id} productInfo={product} />
-            ))}
-          </div>
-        </>
-      )}
-    </>
+  return (
+    <div className="container mx-auto space-y-4 py-6">
+      <h1 className="text-3xl font-bold text-mainColor">All Products</h1>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {products.map((product) => (
+          <Card key={product.id} productInfo={product} />
+        ))}
+      </div>
+    </div>
   );
 }

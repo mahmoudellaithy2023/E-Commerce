@@ -5,7 +5,7 @@ import { BrandContext } from "../../Context/Brand.context";
 import toast from "react-hot-toast";
 
 export default function Brands() {
-  const [brands, setBrands] = useState(null);
+  const [brands, setBrands] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 

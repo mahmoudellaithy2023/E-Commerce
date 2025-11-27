@@ -51,13 +51,13 @@ export default function CategorySlider() {
             <SwiperSlide key={category._id}>
               <Link to={`/SubCategories/${category._id}`}>
                 <div className="">
-                  <div className="border rounded-lg overflow-hidden shadow hover:shadow-green-500 hover:shadow-lg transition p-2 text-center">
+                  <div className="border rounded-lg overflow-hidden shadow hover:shadow-mainColor hover:shadow-lg transition p-2 text-center">
                     <img
                       src={category.image}
                       alt={category.name}
                       className="w-full h-48 object-cover mb-2"
                     />
-                    <h2 className="text-green-600 font-semibold">
+                    <h2 className="text-mainColorfont-semibold">
                       {category.name}
                     </h2>
                   </div>
